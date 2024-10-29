@@ -2,7 +2,7 @@
 
 if (isset($_POST['submit'])) {
   try {
-    $pdo = new PDO('mysql:dbname=php_db_app;host=localhost;charset=utf8mb4', 'root', 'root');
+    $pdo = new PDO('mysql:dbname=zo4bh1av5z629yq;host=klbcedmmqp7w17ik.cbetxkdyhwsb.us-east-1.rds.amazonaws.com', 'yiqaon1ccnxq3ash', 'e80e8bgufl8c6hpb');
     $sql_update = 'UPDATE products SET product_code = :product_code, product_name = :product_name, price = :price, stock_quantity = :stock_quantity, vendor_code = :vendor_code WHERE id = :id';
     $stmt_update = $pdo->prepare($sql_update);
     $stmt_update->bindValue(':product_code', $_POST['product_code'], PDO::PARAM_INT);
@@ -27,7 +27,7 @@ if (isset($_POST['submit'])) {
 if (isset($_GET['id'])) {
 
   try {
-    $pdo = new PDO('mysql:dbname=php_db_app;host=localhost;charset=utf8mb4', 'root', 'root');
+    $pdo = new PDO('mysql:dbname=zo4bh1av5z629yq;host=klbcedmmqp7w17ik.cbetxkdyhwsb.us-east-1.rds.amazonaws.com', 'yiqaon1ccnxq3ash', 'e80e8bgufl8c6hpb');
 
     $sql_select_product = 'SELECT * FROM products WHERE id = :id';
     $stmt_select_product = $pdo->prepare($sql_select_product);

@@ -3,7 +3,7 @@
 if (isset($_POST['submit'])) {
 
   try {
-    $pdo = new PDO('mysql:dbname=php_db_app;host=localhost;charset=utf8mb4', 'root', 'root');
+    $pdo = new PDO('mysql:dbname=zo4bh1av5z629yq;host=klbcedmmqp7w17ik.cbetxkdyhwsb.us-east-1.rds.amazonaws.com', 'yiqaon1ccnxq3ash', 'e80e8bgufl8c6hpb');
 
     $sql_insert = 'INSERT INTO products(product_code, product_name, price, stock_quantity, vendor_code) VALUES (:product_code, :product_name, :price, :stock_quantity, :vendor_code)';
 
@@ -29,7 +29,7 @@ if (isset($_POST['submit'])) {
 }
 
 try {
-  $pdo = new PDO('mysql:dbname=php_db_app;host=localhost;charset=utf8mb4', 'root', 'root');
+  $pdo = new PDO('mysql:dbname=zo4bh1av5z629yq;host=klbcedmmqp7w17ik.cbetxkdyhwsb.us-east-1.rds.amazonaws.com', 'yiqaon1ccnxq3ash', 'e80e8bgufl8c6hpb');
 
   $sql_select = 'SELECT vendor_code FROM vendors';
 
