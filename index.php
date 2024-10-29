@@ -2,7 +2,7 @@
 <html lang="ja">
 
 <head>
-  <title>商品管理アプリ</title>
+  <title>書籍管理アプリ</title>
   <meta http-equiv="refresh" content="">
   <meta charset="UTF-8">
   <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
@@ -17,19 +17,19 @@
 <body>
 
   <header>
-    <nav><a href="index.php">商品管理アプリ</a></nav>
+    <nav><a href="index.php">書籍管理アプリ</a></nav>
   </header>
 
   <main>
     <article class="home">
-      <h1>商品管理アプリ</h1>
-      <p>『PHPとデータベースを連携しよう』成果物</p>
-      <a href="read.php" class="btn">商品一覧</a>
+      <h1>書籍管理アプリ</h1>
+      <p>『書籍管理アプリを作成しよう』成果物</p>
+      <a href="read.php" class="btn">書籍一覧</a>
     </article>
   </main>
 
   <footer>
-    <p class="copyright">&copy; 商品管理アプリ ALL rights reserved.</p>
+    <p class="copyright">&copy; 書籍管理アプリ ALL rights reserved.</p>
   </footer>
 
 </body>

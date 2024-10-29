@@ -2,23 +2,23 @@
 
 if (isset($_POST['submit'])) {
   try {
-    $pdo = new PDO('mysql:dbname=zo4bh1av5z629yq;host=klbcedmmqp7w17ik.cbetxkdyhwsb.us-east-1.rds.amazonaws.com', 'yiqaon1ccnxq3ash', 'e80e8bgufl8c6hpb');
-    $sql_update = 'UPDATE products SET product_code = :product_code, product_name = :product_name, price = :price, stock_quantity = :stock_quantity, vendor_code = :vendor_code WHERE id = :id';
+    $pdo = new PDO('mysql:dbname=php_book_app;host=localhost;charset=utf8mb4', 'root', 'root');
+    $sql_update = 'UPDATE books SET book_code = :book_code, book_name = :book_name, price = :price, stock_quantity = :stock_quantity, genre_code = :genre_code WHERE id = :id';
     $stmt_update = $pdo->prepare($sql_update);
-    $stmt_update->bindValue(':product_code', $_POST['product_code'], PDO::PARAM_INT);
-    $stmt_update->bindValue(':product_name', $_POST['product_name'], PDO::PARAM_STR);
+    $stmt_update->bindValue(':book_code', $_POST['book_code'], PDO::PARAM_INT);
+    $stmt_update->bindValue(':book_name', $_POST['book_name'], PDO::PARAM_STR);
     $stmt_update->bindValue(':price', $_POST['price'], PDO::PARAM_INT);
     $stmt_update->bindValue(':stock_quantity', $_POST['stock_quantity'], PDO::PARAM_INT);
-    $stmt_update->bindValue(':vendor_code', $_POST['vendor_code'], PDO::PARAM_INT);
+    $stmt_update->bindValue(':genre_code', $_POST['genre_code'], PDO::PARAM_INT);
     $stmt_update->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
 
     $stmt_update->execute();
 
     $count = $stmt_update->rowCount();
-    $message = "商品を{$count}件編集しました。";
+    $message = "書籍を{$count}件編集しました。";
     header("Location: read.php?message={$message}");
 
-  } catch (PDOException $e) {
+  } catch (PDOException $e) { 
     exit($e->getMessage());
   }
 }
@@ -27,25 +27,25 @@ if (isset($_POST['submit'])) {
 if (isset($_GET['id'])) {
 
   try {
-    $pdo = new PDO('mysql:dbname=zo4bh1av5z629yq;host=klbcedmmqp7w17ik.cbetxkdyhwsb.us-east-1.rds.amazonaws.com', 'yiqaon1ccnxq3ash', 'e80e8bgufl8c6hpb');
+    $pdo = new PDO('mysql:dbname=php_book_app;host=localhost;charset=utf8mb4', 'root', 'root');
 
-    $sql_select_product = 'SELECT * FROM products WHERE id = :id';
-    $stmt_select_product = $pdo->prepare($sql_select_product);
+    $sql_select_book = 'SELECT * FROM books WHERE id = :id';
+    $stmt_select_book = $pdo->prepare($sql_select_book);
 
-    $stmt_select_product->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+    $stmt_select_book->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
 
-    $stmt_select_product->execute();
+    $stmt_select_book->execute();
 
-    $product = $stmt_select_product->fetch(PDO::FETCH_ASSOC);
+    $book = $stmt_select_book->fetch(PDO::FETCH_ASSOC);
 
-    if ($product === FALSE) {
+    if ($book === FALSE) {
       exit('idパラメータの値が不正です。');
     }
 
-    $sql_select_vendor_codes = 'SELECT vendor_code FROM vendors';
+    $sql_select_genre_codes = 'SELECT genre_code FROM genres';
 
-    $stmt_select_vendor_codes = $pdo->query($sql_select_vendor_codes);
-    $vendor_codes = $stmt_select_vendor_codes->fetchAll(PDO::FETCH_COLUMN);
+    $stmt_select_genre_codes = $pdo->query($sql_select_genre_codes);
+    $genre_codes = $stmt_select_genre_codes->fetchAll(PDO::FETCH_COLUMN);
   } catch (PDOException $e) {
     exit($e->getMessage());
   }
@@ -60,7 +60,7 @@ if (isset($_GET['id'])) {
 <html lang="ja">
 
 <head>
-  <title>商品編集</title>
+  <title>書籍編集</title>
   <meta http-equiv="refresh" content="">
   <meta charset="UTF-8">
   <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
@@ -75,12 +75,12 @@ if (isset($_GET['id'])) {
 <body>
 
   <header>
-    <nav><a href="index.php">商品管理アプリ</a></nav>
+    <nav><a href="index.php">書籍管理アプリ</a></nav>
   </header>
 
   <main>
     <article class="registration">
-      <h1>商品編集</h1>
+      <h1>書籍編集</h1>
 
       <div class="back">
         <a href="read.php" class="btn">&LT; 戻る</a>
@@ -88,27 +88,27 @@ if (isset($_GET['id'])) {
 
       <form action="update.php?id=<?= $_GET['id'] ?>" method="post" class="registration-form">
         <div>
-          <label for="product_code">商品コード</label>
-          <input type="number" id="product_code" name="product_code" value="<?= $product['product_code'] ?>" min="0" max="100000000" required>
+          <label for="book_code">書籍コード</label>
+          <input type="number" id="book_code" name="book_code" value="<?= $book['book_code'] ?>" min="0" max="100000000" required>
 
-          <label for="product_name">商品名</label>
-          <input type="text" id="product_name" name="product_name" value="<?= $product['product_name'] ?>" maxlength="50" required>
+          <label for="book_name">書籍名</label>
+          <input type="text" id="book_name" name="book_name" value="<?= $book['book_name'] ?>" maxlength="50" required>
 
           <label for="price">単価</label>
-          <input type="number" id="price" name="price" value="<?= $product['price'] ?>" min="0" max="100000000" required>
+          <input type="number" id="price" name="price" value="<?= $book['price'] ?>" min="0" max="100000000" required>
 
           <label for="stock_quantity">在庫数</label>
-          <input type="number" id="stock_quantity" name="stock_quantity" value="<?= $product['stock_quantity'] ?>" min="0" max="100000000" required>
+          <input type="number" id="stock_quantity" name="stock_quantity" value="<?= $book['stock_quantity'] ?>" min="0" max="100000000" required>
 
-          <label for="vendor_code">仕入先コード</label>
-          <select id="vendor_code" name="vendor_code" required>
+          <label for="genre_code">ジャンルコード</label>
+          <select id="genre_code" name="genre_code" required>
             <option dsabled selected value>選択してください</option>
             <?php
-            foreach ($vendor_codes as $vendor_code) {
-              if ($vendor_code === $product['vendor_code']) {
-                echo "<option value='{$vendor_code}' selected>{$vendor_code}</option>";
+            foreach ($genre_codes as $genre_code) {
+              if ($genre_code === $book['genre_code']) {
+                echo "<option value='{$genre_code}' selected>{$genre_code}</option>";
               } else {
-                echo "<option value='{$vendor_code}'>{$vendor_code}</option>";
+                echo "<option value='{$genre_code}'>{$genre_code}</option>";
               }
             }
             ?>
@@ -121,7 +121,7 @@ if (isset($_GET['id'])) {
   </main>
 
   <footer>
-    <p class="copyright">&copy; 商品管理アプリ ALL rights reserved.</p>
+    <p class="copyright">&copy; 書籍管理アプリ ALL rights reserved.</p>
   </footer>
 
 </body>

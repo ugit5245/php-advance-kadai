@@ -2,7 +2,7 @@
 
 try {
 
-  $pdo = new PDO('mysql:dbname=zo4bh1av5z629yq;host=klbcedmmqp7w17ik.cbetxkdyhwsb.us-east-1.rds.amazonaws.com', 'yiqaon1ccnxq3ash', 'e80e8bgufl8c6hpb');
+  $pdo = new PDO('mysql:dbname=php_book_app;host=localhost;charset=utf8mb4', 'root', 'root');
 
 
 
@@ -20,9 +20,9 @@ try {
 
 
   if ($order === 'desc') {
-    $sql_select = 'SELECT * FROM products WHERE product_name LIKE :keyword ORDER BY updated_at DESC';
+    $sql_select = 'SELECT * FROM books WHERE book_name LIKE :keyword ORDER BY updated_at DESC';
   } else {
-    $sql_select = 'SELECT * FROM products WHERE product_name LIKE :keyword ORDER BY updated_at ASC';
+    $sql_select = 'SELECT * FROM books WHERE book_name LIKE :keyword ORDER BY updated_at ASC';
   }
 
   $stmt_select = $pdo->prepare($sql_select);
@@ -33,7 +33,7 @@ try {
 
   $stmt_select->execute();
 
-  $products = $stmt_select->fetchAll(PDO::FETCH_ASSOC);
+  $books = $stmt_select->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
   exit($e->getMessage());
 }
@@ -43,7 +43,7 @@ try {
 <html lang="ja">
 
 <head>
-  <title>商品管理アプリ</title>
+  <title>書籍管理アプリ</title>
   <meta http-equiv="refresh" content="">
   <meta charset="UTF-8">
   <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
@@ -58,18 +58,18 @@ try {
 <body>
 
   <header>
-    <nav><a href="index.php">商品管理アプリ</a></nav>
+    <nav><a href="index.php">書籍管理アプリ</a></nav>
   </header>
 
   <main>
-    <article class="products">
-      <h1>商品一覧</h1>
+    <article class="books">
+      <h1>書籍一覧</h1>
       <?php
       if (isset($_GET['message'])) {
         echo "<p class='success'>{$_GET['message']}</p>";
       }
       ?>
-      <div class="products-ui">
+      <div class="books-ui">
         <div>
 
           <a href="read.php?order=desc&keyword=<?= $keyword ?>"><img src="images/desc.png" alt="降順に並び替え" class="sort-img"></a>
@@ -77,34 +77,34 @@ try {
 
           <form action="read.php" method="get" class="search-form">
             <input type="hidden" name="order" value="<?= $order ?>">
-            <input type="text" class="search-box" placeholder="商品名で検索" name="keyword" value="<?= $keyword ?>">
+            <input type="text" class="search-box" placeholder="書籍名で検索" name="keyword" value="<?= $keyword ?>">
           </form>
 
         </div>
-        <a href="create.php" class="btn">商品登録</a>
+        <a href="create.php" class="btn">書籍登録</a>
       </div>
 
-      <table class="products-table">
+      <table class="books-table">
         <tr>
-          <th>商品コード</th>
-          <th>商品名</th>
+          <th>書籍コード</th>
+          <th>書籍名</th>
           <th>単価</th>
           <th>在庫数</th>
-          <th>仕入先コード</th>
+          <th>ジャンルコード</th>
           <th>編集</th>
           <th>削除</th>
         </tr>
         <?php
-        foreach ($products as $product) {
+        foreach ($books as $book) {
           echo "
           <tr>
-          <td>{$product['product_code']}</td>
-          <td>{$product['product_name']}</td>
-          <td>{$product['price']}</td>
-          <td>{$product['stock_quantity']}</td>
-          <td>{$product['vendor_code']}</td>
-          <td><a href='update.php?id={$product['id']}'><img src='images/edit.png' alt='編集' class='edit-icon'></a></td>
-          <td><a href='delete.php?id={$product['id']}'><img src='images/delete.png' alt='削除' class='delete-icon'></a></td>    
+          <td>{$book['book_code']}</td>
+          <td>{$book['book_name']}</td>
+          <td>{$book['price']}</td>
+          <td>{$book['stock_quantity']}</td>
+          <td>{$book['genre_code']}</td>
+          <td><a href='update.php?id={$book['id']}'><img src='images/edit.png' alt='編集' class='edit-icon'></a></td>
+          <td><a href='delete.php?id={$book['id']}'><img src='images/delete.png' alt='削除' class='delete-icon'></a></td>    
           </tr>";
         }
         ?>
@@ -112,7 +112,7 @@ try {
     </article>
   </main>
   <footer>
-    <p class="copyright">&copy; 商品管理アプリ ALL rights reserved.</p>
+    <p class="copyright">&copy; 書籍管理アプリ ALL rights reserved.</p>
   </footer>
 
 </body>

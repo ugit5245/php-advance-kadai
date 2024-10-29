@@ -2,9 +2,9 @@
 
 try {
 
-  $pdo = new PDO('mysql:dbname=zo4bh1av5z629yq;host=klbcedmmqp7w17ik.cbetxkdyhwsb.us-east-1.rds.amazonaws.com', 'yiqaon1ccnxq3ash', 'e80e8bgufl8c6hpb');
+  $pdo = new PDO('mysql:dbname=php_book_app;host=localhost;charset=utf8mb4', 'root', 'root');
 
-  $sql_delete = 'DELETE FROM products WHERE id=:id';
+  $sql_delete = 'DELETE FROM books WHERE id=:id';
 
   $stmt_delete = $pdo->prepare($sql_delete);
 
@@ -14,7 +14,7 @@ try {
 
   $count = $stmt_delete->rowCount();
 
-  $message = "商品を{$count}件削除しました。";
+  $message = "書籍を{$count}件削除しました。";
 
   header("Location: read.php?message={$message}");
   
